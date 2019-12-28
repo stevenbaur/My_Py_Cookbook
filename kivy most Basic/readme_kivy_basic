@@ -1,0 +1,26 @@
+readme kivy basic
+
+Die absolute, nackte Grundform für Kivy, um eine App/ein Fenster zu erzeugen.
+Also ein Grundgerüst. Dieses kann dann entsprechend nach Anwendungsbereich mit Leben (und Widgets) gefüllt werden.
+
+
+from kivy.app import App                    Importiert die App-Klasse aus kivy. Ohne diese läuft nichts.
+from kivy.uix.widget import Widget          Importiert die Widget-Klasse. Alternativ kann auch direkt ein Layout imporiert werden,
+                                            man benötigt jedenfalls irgendein Widget/Klasse als Grundlage für die App
+
+class wdgt(Widget):                         Hier wird die Grundklasse erzeugt, in diesem Fall ein Widget. (Könnte jedoch auch
+                                            ein Layout oder anderes sein.
+    def __init__(self, **kwargs):           Beim __init__ der Klasse:
+        super().__init__(**kwargs)          Erbe Klasseneigenschaften (hier von Widget)
+        pass                                Hier passiert noch nichts, die Klasse ist also vollkommen leer und macht nichts
+
+class MainApp(App):                         Klasse der eigentlichen Haupt-App, also dem kivy-Programm, das gestartet werden soll
+    def build(self):                        build-funktion
+        return wdgt()                       Gib die Hauptklasse zurück. Sprich: Fülle die kivy-App / das Fenster mit der Grundklasse
+
+if __name__ == '__main__':                  sofern die Datei selbst ausgeführt wird (und nicht nur importiert)
+    MainApp().run()                         Starte die Haupt-App.
+
+Führt man den Code aus, startet kivy (sofern installiert: kivy.org). Die App (MainApp) wird gestartet und das Fenster geöffnet.
+Da noch nichts hinterlegt wurde, wird das Fenster leer (schwarz) sein und die Standardgröße aufweisen.
+
