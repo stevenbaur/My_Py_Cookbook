@@ -1,0 +1,31 @@
+README collision_check:
+
+Die Funktion übernimmt zwei Argumente: Rect1 und Rect2. Es wird geprüft, ob die beiden Rechtecke (RECTangles) 1 und 2
+miteinander kollidieren. Ist dies der Fall, gibt die Funktion True zurück.
+Jedes Rechteck (rect1, rect2) besteht aus einem Tupel (Position, Größe) mit Position = (X,Y) und Größe = (Breite, Höhe)
+z.B. Rect1 := ((50,50),(100,100))
+
+siehe:
+def collision_check(rect1, rect2): #jeweils tuple mit (rectX.pos,rectX.size)
+
+anschließend wird jeweils die X bzw. Y Koordinate von Rect1 und Rect2 extrahiert:
+r1x = rect1[0][0]   X-Koordinate aus rect1 ((X,50),(100,100))
+r1y = rect1[0][1]   Y-Koordinate aus rect1 ((50,Y),(100,100))
+
+r2x = rect2[0][0]   gleiches für rect2
+r2y = rect2[0][1]   gleiches für rect2
+
+nun wird jeweils die Größe in Breite (width) und Höhe (height) des Rechteckes extrahiert:
+r1w = rect1[1][0]   Breite aus rect1 ((50,50),(W,100))
+r1h = rect1[1][1]   Höhe aus rect1 ((50,50),(H,100))
+
+r2w = rect2[1][0]  gleiches für rect2
+r2h = rect2[1][1]  gleiches für rect2
+
+Nun folgt der Algorithmus zur Kollisionsabfrage. Berühren sich die beiden Rechtecke an irgendeinem Punkt/Kante, so gibt die
+Funktion "True" zurück. Andernfalls "False"
+
+    if (r1x < r2x + r2w and r1x + r1w > r2x and r1y < r2y +r2h and r1y + r1h > r2y):
+        return True
+    else:
+        return False
