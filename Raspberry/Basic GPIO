@@ -1,0 +1,56 @@
+###Basisinformationen des Raspberry:
+in der shell:
+>>>pinout
+eingeben. Dort sieht man eine Übersicht des genutzten Raspberrys, inklusive Revisionsnummer
+(Modell 3B+ Version 1.3 z.B. als a020d3). Eine Liste der Raspberrys findet sich unter
+https://www.raspberrypi-spy.co.uk/2012/09/checking-your-raspberry-pi-board-version/
+(zuletzt aktualisiert im September 2012).
+
+Zudem zeigt pinout die Pin-Belegung des GPIO-Anschlusses an, welche je nach RPi-Version unterschiedlich
+sein kann. Die Liste zeigt den Pin gem. BCM an (also GPIO02, GPIO03 etc.), als auch als BOARD, also hardware-seitige
+Pin-Nummer (physikalische Pin-Nummer).
+(z.B. Pin Nr. 7 (BOARD) = Pin GPIO4 (BCM)).
+
+Grundlegendes:
+Es scheint keine Rolle zu spielen, ob man die Pins mit GPIO.BOARD oder GPIO.BCM aufsetzt. Viele Tutorials verwenden
+z.B. bei BCM für output ein HIGH/LOW, jedoch funktioniert das ganze scheinbar auch mit True/False, wie man es oft
+in Tutorials lesen kann, die BOARD statt BCM nutzen.
+
+Immer wenn das Programm beendet werden soll, bitte mit GPIO.cleanup() wieder aufräumen!!
+
+###GPIO-BASICS:
+
+import RPi.GPIO as GPIO     #importieren der GPIO-Routine. Es kann sein, dass nur sudo Zugriff auf die GPIOs hat, wenn
+                            #ein Programm in der Konsole gestartet wird.
+GPIO.setmode(GPIO.BCM)      #Den genutzen Modus festlegen: BCM oder BOARD (BCM-"Adressen" oder die physikalische Pin-Nummer)
+                            #Notiz an mich: nutz BCM, die Zuordnungen/Adressen stehen auf dem Breakout Kit!
+GPIO.setup(4, GPIO.OUT)     #Setup eines Pins (hier BCM Nr. 4 (BOARD nr. 7)), als AUSGANG
+GPIO.output(4, True)        #Startet den Output auf BCM Pin Nr. 4 (d.h. Pin bekommt + 3.3V) ( True = High )
+GPIO.output(4, False)       #Beendet den Output auf BCM Pin Nr. 4 (d.h. Pin bekommt 0V) ( False = Low )
+
+GPIO.setup(12, GPIO.IN)     #Macht aus BCM Pin Nr. 12 einen EINGANG (Digital)
+GPIO.input(12)              #Gibt den Eingangswert von BCM Pin Nr. 12 zurück. 0 = Aus/Nichts 1 = AN
+                            #Für einen Taster z.B. verbindet man 3.3V vom Raspi über einen Taster mit PIN 12
+                            #WICHTIG: Dafür unbedingt einen Widerstand (z.B. 330R) mit einbauen!!
+                            #Wird die Taste gedrückt: GPIO.input(12) = 1, sonst 0
+
+###PWM-Signale
+PWM wird genutzt um z.B. LED's zu dimmen oder Servos zu kontrollieren (benötigen idR. ~50 Hz PWM-Signal)
+
+Beispiel LED dimmen:
+import RPi.GPIO as GPIO
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(4, GPIO.OUT)
+
+#----pwm:
+#GPIO.PWM(PIN-NR, FREQUENZ)
+my_pwm = GPIO.PWM(4,100)
+
+#pwm muss gestartet werden. Der Wert in der Klammer ist der DutyCycle.
+my_pwm.start(50)
+
+#um den DutyCycle zu ändern: ChangeDutyCycle(neuer_WERT)
+my_pwm.ChangeDutyCycle(100)
+
+#um das wieder zu stoppen:
+my_pwm.stop()
