@@ -1,0 +1,19 @@
+import threading
+import socket
+import time
+from adafruit_servokit import ServoKit
+
+kit = ServoKit(channels=16)
+
+def run_server():
+    server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    server_socket.bind(('', 1337))
+    server_socket.listen(1)
+
+    while True:
+        (client_socket, addr) = server_socket.accept()
+        grad = int(str(client_socket.recv(512), 'utf8'))
+        kit.servo[0].angle = grad
+
+thread_one = threading.Thread(target=run_server)
+thread_one.start()
