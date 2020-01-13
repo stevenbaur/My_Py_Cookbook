@@ -1,0 +1,17 @@
+folgende Pakete notwendig:
+sudo apt-get install -y python-smbus
+sudo apt-get install -y i2c-tools
+
+1. i2c im Kernel aktivieren, falls noch nicht geschehen:
+  ->sudo raspi-config
+  ->Interface Options
+  ->Advanced Options
+  ->I2C Enable
+  Anschließend sudo reboot
+2. Verbindung prüfen:
+  -> sudo i2cdetect -y 1  #ältere RPi Modelle 0 statt 1
+  
+3. Adafruit ServoKit-Library installieren
+  -> sudo pip3 install adafruit-circuitpython-servokit
+  
+  https://learn.adafruit.com/adafruit-16-channel-pwm-servo-hat-for-raspberry-pi/using-the-python-library
